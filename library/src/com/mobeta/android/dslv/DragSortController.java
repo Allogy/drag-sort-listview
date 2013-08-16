@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 /**
  * Class that starts and stops item drags on a {@link DragSortListView}
@@ -80,6 +81,7 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
 
     private DragSortListView mDslv;
     private int mPositionX;
+    private OnItemLongClickListener mCustomItemLongClickListener = null;
 
     /**
      * Calls {@link #DragSortController(DragSortListView, int)} with a
@@ -110,6 +112,12 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
      */
     public DragSortController(DragSortListView dslv, int dragHandleId, int dragInitMode,
             int removeMode, int clickRemoveId, int flingHandleId) {
+        this(dslv, dragHandleId, dragInitMode, removeMode, clickRemoveId, flingHandleId, null);
+    }
+
+    public DragSortController(DragSortListView dslv, int dragHandleId, int dragInitMode,
+                              int removeMode, int clickRemoveId, int flingHandleId,
+                              OnItemLongClickListener customItemLongClickListener) {
         super(dslv);
         mDslv = dslv;
         mDetector = new GestureDetector(dslv.getContext(), this);
@@ -119,6 +127,7 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
         mDragHandleId = dragHandleId;
         mClickRemoveId = clickRemoveId;
         mFlingHandleId = flingHandleId;
+        mCustomItemLongClickListener = customItemLongClickListener;
         setRemoveMode(removeMode);
         setDragInitMode(dragInitMode);
     }
@@ -205,6 +214,14 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
      */
     public void setClickRemoveId(int id) {
         mClickRemoveId = id;
+    }
+
+    public void setCustomItemLongClickListener(OnItemLongClickListener customItemLongClickListener) {
+        mCustomItemLongClickListener = customItemLongClickListener;
+    }
+
+    public OnItemLongClickListener getCustomItemLongClickListener() {
+        return mCustomItemLongClickListener;
     }
 
     /**
@@ -416,6 +433,20 @@ public class DragSortController extends SimpleFloatViewManager implements View.O
             mDslv.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             startDrag(mHitPos, mCurrX - mItemX, mCurrY - mItemY);
         }
+
+        if(mDragInitMode == ON_LONG_PRESS) {
+            return;
+        }
+
+        if(mCustomItemLongClickListener != null) {
+            mDslv.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            int motionPos = mDslv.pointToPosition((int) e.getX(), (int) e.getY());
+            final View child = ((DragSortItemView) mDslv.getChildAt(motionPos - mDslv.getFirstVisiblePosition())).getChildAt(0);
+            final int position = mDslv.getPositionForView(child);
+            final long id = mDslv.getItemIdAtPosition(position);
+            mCustomItemLongClickListener.onItemLongClick(mDslv, child, position, id);
+        }
+
     }
 
     // complete the OnGestureListener interface
