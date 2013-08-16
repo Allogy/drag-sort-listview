@@ -17,7 +17,7 @@ Copyright 2012 Andreas Schildbach
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.mobeta.android.dslv</groupId>
+	<groupId>com.allogy.mobeta.android.dslv</groupId>
 	<artifactId>parent</artifactId>
 	<version>0.6.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -34,9 +34,8 @@ Copyright 2012 Andreas Schildbach
     </modules>
 
     <scm>
-        <url>https://github.com/bauerca/drag-sort-listview/</url>
-        <connection>scm:git:git://github.com/bauerca/drag-sort-listview.git</connection>
-        <developerConnection>scm:git:git@github.com:bauerca/drag-sort-listview.git</developerConnection>
+        <connection>scm:git:git@github.com:Allogy/drag-sort-listview.git</connection>
+        <developerConnection>scm:git:git@github.com:Allogy/drag-sort-listview.git</developerConnection>
     </scm>
 
     <dependencyManagement>
@@ -81,4 +80,5 @@ Copyright 2012 Andreas Schildbach
 			</plugins>
 		</pluginManagement>
     </build>
+
 </project>
