@@ -67,6 +67,14 @@ Copyright 2012 Andreas Schildbach
         </repository>
     </distributionManagement>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>allogy-maven-public</id>
+            <name>Allogy public Maven release repository</name>
+            <url>https://s3.amazonaws.com/allogy.maven.public/release</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <extensions>
             <extension>
@@ -75,7 +83,30 @@ Copyright 2012 Andreas Schildbach
                 <version>1.1.19</version>
             </extension>
         </extensions>
+		<pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <version>3.5.0</version>
+                    <extensions>true</extensions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <sdk>
+                        <platform>15</platform>
+                    </sdk>
+                    <proguard>
+                        <skip>true</skip>
+                    </proguard>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -87,21 +118,6 @@ Copyright 2012 Andreas Schildbach
                 </configuration>
             </plugin>
         </plugins>
-		<pluginManagement>
-			<plugins>
-			    <plugin>
-			    	<groupId>com.jayway.maven.plugins.android.generation2</groupId>
-			    	<artifactId>android-maven-plugin</artifactId>
-			    	<version>3.3.2</version>
-			    	<extensions>true</extensions>
-			    </plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-eclipse-plugin</artifactId>
-					<version>2.9</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
     </build>
 
 </project>
